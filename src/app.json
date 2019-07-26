@@ -1,0 +1,9 @@
+{
+  "pages": ["pages/homePage/main", "pages/gift/main", "pages/detail/main"],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "公共抽奖",
+    "navigationBarTextStyle": "black"
+  }
+}
