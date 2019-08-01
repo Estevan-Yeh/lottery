@@ -4,7 +4,10 @@
     :class='body'
   >
     <view class='header'>
-      <view class='left'>
+      <view
+        class='left'
+        @tap="toWish"
+      >
         <img
           src='/static/image/love.png'
           mode='scaleToFill'
@@ -12,7 +15,10 @@
         >
         <text class='isign'> {{loveNum}} 心愿</text>
       </view>
-      <view class='right'>
+      <view
+        class='right'
+        @tap="toWish"
+      >
         <text class='isign'>去签到</text>
         <img
           src='/static/image/go.png'
@@ -26,9 +32,9 @@
     <view class='head'>
       <text class='title left'>每日福利</text>
       <view class='right isign'>
-        <text>我要上首页</text>
+        <text @tap="toGoIndex">我要上首页</text>
         <view></view>
-        <text>分享</text>
+        <button open-type="share">分享</button>
       </view>
     </view>
     <view class='clear'></view>
@@ -59,6 +65,7 @@
 
     <view
       class='self_first container self'
+      ref="xixi"
       @tap='toDetail'
     >
       <img
@@ -86,6 +93,7 @@
     >
       <view
         class='container self'
+        :class="index==0?'bt':''"
         @tap='toDetail'
       >
         <img
@@ -101,7 +109,10 @@
       </view>
     </block>
 
-    <MoreView v-if="moreView"></MoreView>
+    <MoreView
+      v-if="moreView"
+      :moreViewText="moreViewText"
+    ></MoreView>
     <view
       v-else
       class='footer container'
@@ -143,6 +154,7 @@ export default {
   },
   data () {
     return {
+      moreViewText: '上拉加载更多',
       body: "",
       loveNum: 1,
       team: 'team',
@@ -179,6 +191,32 @@ export default {
       advertise_img: '/static/image/exm3.png'
     }
   },
+  watch: {
+    'self' () {
+      this.moreViewText = '加载中...'
+      console.log('tag', this.moreViewText)
+      this.$nextTick(function () {
+        this.moreViewText = '上拉加载更多'
+        console.log('xixi', this.moreViewText)
+      })
+    }
+  },
+  mounted () {
+    // wx.navigateTo({
+    //   url: '../detail/main',
+    //   events: {
+    //     acceptDataFromOpenedPage: function (data) {
+    //       console.log(data)
+    //     },
+    //     someEvent: function (data) {
+    //       console.log(data)
+    //     }
+    //   },
+    //   success: function (res) {
+    //     res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
+    //   }
+    // })
+  },
   methods: {
     toDetail () {
       wx.navigateTo({
@@ -196,12 +234,12 @@ export default {
         }
       })
     },
-    beforeCreate () {
-      this.body = 'hide'
+    toWish () {
+      wx.navigateTo({ url: '../wish/main' });
     },
-    created () {
-      this.body = ''
-    },
+    toGoIndex () {
+      wx.navigateTo({ url: '../goIndex/main' });
+    }
   }
 }
 </script>
@@ -227,6 +265,16 @@ export default {
 .isign {
   font-size: 26rpx;
   color: #575757;
+}
+.isign button::after {
+  border: none;
+}
+.isign button {
+  display: inline;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  background: inherit;
 }
 .clear {
   clear: both;
@@ -318,9 +366,14 @@ view.everyday view.textBox text.noteam {
   display: none;
 }
 
+view.self.bt {
+  border-top: solid #d8d8d8 1rpx;
+}
+
 view.self {
   border-radius: 8rpx;
   border: solid #d8d8d8 1rpx;
+  border-top: 0rpx;
   padding: 25rpx;
   background-color: #fafafa;
 }
@@ -375,8 +428,12 @@ view.self view.iconBox > image {
   bottom: 5rpx;
 }
 
-.footer > image {
+.footer > img {
   width: 100%;
   height: 227rpx;
+}
+.footer img.icon {
+  position: relative;
+  top: 6rpx;
 }
 </style>

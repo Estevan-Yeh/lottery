@@ -1,7 +1,10 @@
 <template>
   <view :class="body">
     <view class='my'>
-      <view class='header_1'>
+      <view
+        class='header_1'
+        @tap="toWish"
+      >
         <view class='flex'>
           <view class='img'>
             <img
@@ -31,14 +34,20 @@
           v-for="(item, index) in header_2"
           :key="index"
         >
-          <view :class='item.borderR'>
+          <view
+            :class='item.borderR'
+            @tap="toPage(item.toPage)"
+          >
             <view class='num'>{{item.num}}</view>
             <view class='txt'>{{item.txt}}</view>
           </view>
         </block>
       </view>
 
-      <view class='exm'>
+      <view
+        class='exm'
+        @tap="toDetail"
+      >
         <view class='flex'>
           <view class='img'>
             <img
@@ -64,7 +73,10 @@
           v-for="(item, index) in lists"
           :key="index"
         >
-          <view class='list'>
+          <view
+            class='list'
+            @tap="toListPage(item.toListPage)"
+          >
             <view :class='item.bm'>
               <img
                 class='icon'
@@ -110,16 +122,19 @@ export default {
         {
           borderR: 'borderR',
           num: 0,
-          txt: '全部抽奖'
+          txt: '全部抽奖',
+          toPage: 'toGiftAll'
         },
         {
           borderR: 'borderR',
           num: 0,
-          txt: '发起抽奖'
+          txt: '发起抽奖',
+          toPage: 'toGiftAll'
         },
         {
           num: 0,
-          txt: '中奖纪录'
+          txt: '中奖纪录',
+          toPage: 'toGiftAll'
         }
       ],
       exm: {
@@ -132,73 +147,101 @@ export default {
           icon: '/static/my/yue.png',
           title: '余额',
           point: 'hide',
-          text: ''
+          text: '',
+          toListPage: 'remainingSum'
         },
         {
           bm: 'marginB',
           icon: '/static/my/store.png',
           title: '官方商城',
           point: 'hide',
-          text: 'NoCode Store'
+          text: 'NoCode Store',
+          toListPage: ''
         },
         {
           bm: 'borderB',
           icon: '/static/my/my.png',
           title: '个人主页',
           point: '',
-          text: ''
+          text: '',
+          toListPage: 'personalIndex'
+        },
+        {
+          bm: 'borderB',
+          icon: '/static/my/message.png',
+          title: '我的消息',
+          point: 'hide',
+          text: '',
+          toListPage: 'myMessage'
         },
         {
           bm: 'borderB',
           icon: '/static/my/advance.png',
           title: '高级版管理',
           point: 'hide',
-          text: ''
+          text: '',
+          toListPage: 'myAdvance'
         },
         {
           bm: 'marginB',
           icon: '/static/my/daiyanren.png',
           title: '抽奖助手代言人',
           point: '',
-          text: '限时赚 20%'
+          text: '限时赚 20%',
+          toListPage: 'myDaiyanren'
         },
         {
           bm: 'borderB',
           icon: '/static/my/v.png',
           title: '发起人认证',
           point: 'hide',
-          text: ''
+          text: '',
+          toListPage: 'myV'
         },
         {
           bm: 'borderB',
           icon: '/static/my/partner.png',
           title: '推广合作',
           point: 'hide',
-          text: ''
+          text: '',
+          toListPage: 'myPartner'
         },
         {
           bm: 'borderB',
           icon: '/static/my/mp.png',
           title: '小程序推荐',
           point: 'hide',
-          text: ''
+          text: '',
+          toListPage: 'myMpRecommend'
         },
         {
           bm: 'marginB',
           icon: '/static/my/more.png',
           title: '更多',
           point: 'hide',
-          text: ''
+          text: '',
+          toListPage: 'myMore'
         }
       ]
     }
   },
   methods: {
-    beforeCreate () {
-      this.body = 'myhide'
+    toWish () {
+      wx.navigateTo({ url: '../wish/main' });
     },
-    created () {
-      this.body = ''
+    toPage (m) {
+      if (this[m])
+        this[m]()
+    },
+    toGiftAll () {
+      wx.navigateTo({ url: '../giftAll/main' })
+    },
+    toDetail () {
+      wx.navigateTo({ url: '../myLink/main' })
+    },
+    toListPage (m) {
+      if (m)
+        wx.navigateTo({ url: '../' + m + '/main' });
     }
   },
 }
@@ -297,6 +340,10 @@ export default {
 .exm > view > view.img > image {
   width: 100%;
   height: 162rpx;
+}
+
+.exm .flex {
+  align-items: inherit;
 }
 
 .exm view.con {

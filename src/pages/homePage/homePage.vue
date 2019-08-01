@@ -4,7 +4,9 @@
       data-current=2
       v-if="page=='my'"
     />
+
     <!-- <view v-if="page=='empty'" > </view> -->
+
     <Index
       data-current=1
       v-if="page=='index'"
@@ -98,26 +100,12 @@ export default {
       if (parseInt(that.currentData) === parseInt(e.target.dataset.current)) {
         return false
       } else if (parseInt(e.target.dataset.current) === 2) {
-        if (wx.pageScrollTo) {
-          wx.pageScrollTo({
-            scrollTop: 0
-          })
-        } else {
-          return
-        }
         that.currentData = e.target.dataset.current
         that.page = 'my'
         wx.setNavigationBarTitle({
           title: "我的"
         })
       } else if (parseInt(e.target.dataset.current) === 0) {
-        if (wx.pageScrollTo) {
-          wx.pageScrollTo({
-            scrollTop: 0
-          })
-        } else {
-          return
-        }
         that.currentData = e.target.dataset.current
         that.page = 'index'
         wx.setNavigationBarTitle({
@@ -192,6 +180,9 @@ export default {
 </script>
 
 <style>
+page {
+  background-color: #f0f0f0;
+}
 page {
   padding-bottom: 100rpx;
 }

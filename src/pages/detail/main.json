@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "抽奖详情"
+  "navigationBarTitleText": "抽奖详情",
+  "onReachBottomDistance": 220
 }

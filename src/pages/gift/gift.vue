@@ -1,76 +1,107 @@
 <template>
   <view>
-    <view id='header'>
-      <img
-        src='/static/gift/exm1.png'
-        mode='scaleToFill'
-      >
-      <view class='btns bg'>
-        <view>
-          <img
-            src='/static/gift/store.png'
-            mode='scaleToFill'
-          >
-          <text>商城奖品</text>
+    <block
+      v-for="(item,index) in header"
+      :key="index"
+    >
+      <view class='header'>
+        <img
+          src='/static/gift/exm1.png'
+          mode='scaleToFill'
+        >
+        <view class='btns bg'>
+          <view>
+            <img
+              src='/static/gift/store.png'
+              mode='scaleToFill'
+            >
+            <text>商城奖品</text>
+          </view>
+          <view>
+            <img
+              src='/static/gift/store.png'
+              mode='scaleToFill'
+            >
+            <text>商城奖品</text>
+          </view>
         </view>
-        <view>
-          <img
-            src='/static/gift/store.png'
-            mode='scaleToFill'
-          >
-          <text>商城奖品</text>
+        <view class='btns'>
+          <view>
+            <img
+              src='/static/gift/store.png'
+              mode='scaleToFill'
+            >
+            <text>商城奖品</text>
+          </view>
+          <view>
+            <img
+              src='/static/gift/img.png'
+              mode='scaleToFill'
+            >
+            <text>更换图片</text>
+          </view>
         </view>
       </view>
-      <view class='btns'>
-        <view>
-          <img
-            src='/static/gift/store.png'
-            mode='scaleToFill'
-          >
-          <text>商城奖品</text>
-        </view>
-        <view>
-          <img
-            src='/static/gift/img.png'
-            mode='scaleToFill'
-          >
-          <text>更换图片</text>
-        </view>
-      </view>
-    </view>
 
-    <view id='header_2'>
-      <view class='flex_b borderB'>
-        <view>奖品名称</view>
-        <view>
-          <input placeholder='请输入奖品名称'>
+      <view
+        class='header_2'
+        :class="index==header-1?'':'marginB'"
+      >
+        <view class='flex_b borderB'>
+          <view>奖品名称</view>
+          <view>
+            <input placeholder='请输入奖品名称'>
+          </view>
+        </view>
+        <view class='flex_b'>
+          <view>奖品份数</view>
+          <view>
+            <input placeholder='份数'>
+            <text>个</text>
+          </view>
         </view>
       </view>
-      <view class='flex_b'>
-        <view>奖品份数</view>
-        <view>
-          <input placeholder='份数'>
-          <text>个</text>
-        </view>
-      </view>
-    </view>
+    </block>
 
     <view id='add_btn'>
-      <view>+ 添加新奖项</view>
+      <view @tap="addOne">+ 添加新奖项</view>
     </view>
 
-    <view id='append_btn'>
-      <view class='append_left'>到达设定时间自动开奖</view>
-      <view class='append_right'>修改开奖时间 ></view>
-    </view>
+    <picker
+      @change="setWay"
+      :range="way"
+      :value="wayIndex"
+    >
+      <view id='append_btn'>
 
-    <view class='lebal width'>
-      <view>开奖时间</view>
-      <img
-        src='/static/gift/go.png'
-        mode='scaleToFill'
-      >
-    </view>
+        <view class='append_left'>{{way[wayIndex]}}</view>
+        <view class='append_right'>修改开奖时间 ></view>
+
+      </view>
+    </picker>
+
+    <picker
+      mode="time"
+      :value="time"
+      start="09:01"
+      end="21:01"
+      @change="setTime"
+    >
+      <view class='lebal width'>
+
+        <view>
+          开奖时间
+        </view>
+
+        <view>
+          <span>{{time}}</span>
+          <img
+            src='/static/gift/go.png'
+            mode='scaleToFill'
+          >
+        </view>
+      </view>
+    </picker>
 
     <view class='lebal'>
       <view>
@@ -133,7 +164,7 @@
     </view>
 
     <view id='footer_btn'>
-      <button>发起新抽奖</button>
+      <button @tap="xixi">发起新抽奖</button>
     </view>
   </view>
 </template>
@@ -142,29 +173,60 @@
 export default {
   data () {
     return {
-
+      header: 1,
+      time: '',
+      way: [
+        '到达设定时间自动开奖',
+        '按人数自动开奖',
+        '即开即中'
+      ],
+      wayIndex: 0
+    }
+  },
+  methods: {
+    addOne () {
+      var that = this
+      that.header++
+    },
+    setTime (e) {
+      var that = this
+      that.time = e.mp.detail.value
+    },
+    setWay (e) {
+      var that = this
+      that.wayIndex = e.mp.detail.value
+    },
+    xixi () {
+      wx.showToast({
+        title: '发起成功',
+        icon: 'success',
+        duration: 2000
+      })
     }
   }
 }
 </script>
 
 <style>
-#header {
+.header_2.marginB {
+  margin-bottom: 40rpx;
+}
+.header {
   position: relative;
 }
 
-#header image {
+.header image {
   width: 100%;
   height: 370rpx;
 }
 
-#header > view.btns {
+.header > view.btns {
   position: absolute;
   top: 16rpx;
   right: 8rpx;
 }
 
-#header > view.btns > view {
+.header > view.btns > view {
   float: right;
   padding: 15rpx 30rpx;
   border-radius: 30rpx;
@@ -175,47 +237,48 @@ export default {
   margin-right: 25rpx;
 }
 
-#header > view.btns > view text {
+.header > view.btns > view text {
   position: relative;
   bottom: 2rpx;
 }
 
-#header > view.btns > view image {
+.header > view.btns > view image {
   width: 26rpx;
   height: 26rpx;
   margin-right: 15rpx;
 }
 
-#header > view.btns.bg > view {
+.header > view.btns.bg > view {
   background: lightgray;
   opacity: 0.9;
 }
 
-#header > view.btns.bg > view text,
-#header > view.btns.bg image {
+.header > view.btns.bg > view text,
+.header > view.btns.bg image {
   opacity: 0;
 }
 
-#header_2 {
+.header_2 {
   padding-left: 20rpx;
   background-color: #fff;
+  margin-bottom: 20rpx;
 }
 
-#header_2 view.flex_b {
+.header_2 view.flex_b {
   padding-left: 0rpx;
 }
 
-#header_2 view.flex_b.borderB {
+.header_2 view.flex_b.borderB {
   border-bottom: 1rpx solid #e5e5e5;
 }
 
-#header_2 input {
+.header_2 input {
   text-align: right;
   font-size: 0.96em;
   display: inline-block;
 }
 
-#header_2 text {
+.header_2 text {
   position: relative;
   bottom: 11rpx;
   margin-left: 20rpx;
@@ -280,7 +343,7 @@ export default {
   width: 36rpx;
   height: 36rpx;
   position: relative;
-  top: 4rpx;
+  top: 6rpx;
   margin-left: 20rpx;
 }
 
@@ -354,3 +417,8 @@ export default {
 }
 </style>
 
+<style lang="wxss">
+page {
+  background-color: #f0f0f0 !important;
+}
+</style>

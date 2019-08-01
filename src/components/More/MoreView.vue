@@ -1,8 +1,19 @@
 <template>
-    <view class='more-view'>
-        <text class='more-text'>上拉加载更多</text>
-    </view>
+  <view class='more-view'>
+    <text class='more-text'>{{moreViewText}}</text>
+  </view>
 </template>
+<script>
+export default {
+  props: {
+    moreViewText: {
+      type: String,
+      value: "上拉加载更多"
+    }
+  }
+}
+</script>
+
 <style>
 .more-view {
   text-align: center;

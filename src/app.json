@@ -1,5 +1,25 @@
 {
-  "pages": ["pages/homePage/main", "pages/gift/main", "pages/detail/main"],
+  "pages": [
+    "pages/homePage/main",
+    "pages/wish/main",
+    "pages/giftAll/main",
+    "pages/gift/main",
+    "pages/detail/main",
+    "pages/myLink/main",
+    "pages/remainingSum/main",
+    "pages/personalIndex/main",
+    "pages/myMessage/main",
+    "pages/myMore/main",
+    "pages/myDaiyanren/main",
+    "pages/myAdvance/main",
+    "pages/myMpRecommend/main",
+    "pages/myPartner/main",
+    "pages/myV/main",
+    "pages/goIndex/main",
+    "pages/myPIAdd/main",
+    "pages/wishDetail/main",
+    "pages/wishVow/main"
+  ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
